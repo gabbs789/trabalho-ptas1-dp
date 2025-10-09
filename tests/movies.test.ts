@@ -4,7 +4,6 @@ import app from '../src/server';
 import { promises as fs } from 'fs';
 import path from 'path';
 
-const dataFile = path.join(process.cwd(), 'data', 'movies.json');
 
 async function resetData() {
   try {
@@ -22,37 +21,38 @@ test('health check', async () => {
   expect(res.body).toEqual({ status: 'ok' });
 });
 
-test('CRUD movies', async () => {
+test('CRUD pets', async () => {
   // Create
   const createRes = await request(app)
-    .post('/api/movies')
-    .send({ title: 'Inception', year: 2010, genre: 'Sci-Fi', rating: 9 });
+    .post('/api/pets')
+    .send({ name: 'Luna', species: 'Dog', age: 2, vaccinated: true, breed: 'Mixed' });
   expect(createRes.status).toBe(201);
   const created = createRes.body;
   expect(created.id).toBeDefined();
 
   // List
-  const listRes = await request(app).get('/api/movies');
+  const listRes = await request(app).get('/api/pets');
   expect(listRes.status).toBe(200);
   expect(Array.isArray(listRes.body)).toBe(true);
   expect(listRes.body.length).toBe(1);
 
   // Get by id
-  const getRes = await request(app).get(`/api/movies/${created.id}`);
+  const getRes = await request(app).get(`/api/pets/${created.id}`);
   expect(getRes.status).toBe(200);
-  expect(getRes.body.title).toBe('Inception');
+  expect(getRes.body.name).toBe('Luna');
 
   // Update
   const updateRes = await request(app)
-    .put(`/api/movies/${created.id}`)
-    .send({ rating: 8.5 });
+    .put(`/api/pets/${created.id}`)
+    .send({ age: 3, vaccinated: false });
   expect(updateRes.status).toBe(200);
-  expect(updateRes.body.rating).toBe(8.5);
+  expect(updateRes.body.age).toBe(3);
+  expect(updateRes.body.vaccinated).toBe(false);
 
   // Delete
-  const delRes = await request(app).delete(`/api/movies/${created.id}`);
+  const delRes = await request(app).delete(`/api/pets/${created.id}`);
   expect(delRes.status).toBe(204);
 
-  const getAfterDel = await request(app).get(`/api/movies/${created.id}`);
+  const getAfterDel = await request(app).get(`/api/pets/${created.id}`);
   expect(getAfterDel.status).toBe(404);
 });

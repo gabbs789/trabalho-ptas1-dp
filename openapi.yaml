@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: API Catálogo de Filmes
+  title: API Petshop
   version: 1.0.0
 servers:
   - url: http://localhost:3000
@@ -18,36 +18,36 @@ paths:
                 properties:
                   status:
                     type: string
-  /api/movies:
+  /api/pets:
     get:
-      summary: Lista filmes
+      summary: Lista pets
       responses:
         '200':
-          description: Lista de filmes
+          description: Lista de pets
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Movie'
+                  $ref: '#/components/schemas/Pet'
     post:
-      summary: Cria um filme
+      summary: Cria um pet
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MovieCreate'
+              $ref: '#/components/schemas/PetCreate'
       responses:
         '201':
           description: Criado
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Movie'
-  /api/movies/{id}:
+                $ref: '#/components/schemas/Pet'
+  /api/pets/{id}:
     get:
-      summary: Busca filme por id
+      summary: Busca pet por id
       parameters:
         - in: path
           name: id
@@ -59,11 +59,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Movie'
+                $ref: '#/components/schemas/Pet'
         '404':
           description: Não encontrado
     put:
-      summary: Atualiza filme
+      summary: Atualiza pet
       parameters:
         - in: path
           name: id
@@ -74,18 +74,18 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MovieUpdate'
+              $ref: '#/components/schemas/PetUpdate'
       responses:
         '200':
           description: Atualizado
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Movie'
+                $ref: '#/components/schemas/Pet'
         '404':
           description: Não encontrado
     delete:
-      summary: Remove filme
+      summary: Remove pet
       parameters:
         - in: path
           name: id
@@ -98,22 +98,29 @@ paths:
           description: Não encontrado
 components:
   schemas:
-    Movie:
+    Pet:
       type: object
       properties:
         id: { type: string }
-        title: { type: string }
-        year: { type: integer }
-        genre: { type: string }
-        rating: { type: number, nullable: true }
-    MovieCreate:
+        name: { type: string }
+        species: { type: string }
+        age: { type: integer }
+        vaccinated: { type: boolean }
+        breed: { type: string }
+    PetCreate:
       type: object
-      required: [title, year, genre]
+      required: [name, species, age]
       properties:
-        title: { type: string }
-        year: { type: integer }
-        genre: { type: string }
-        rating: { type: number, nullable: true }
-    MovieUpdate:
-      allOf:
-        - $ref: '#/components/schemas/MovieCreate'
+        name: { type: string }
+        species: { type: string }
+        age: { type: integer }
+        vaccinated: { type: boolean }
+        breed: { type: string }
+    PetUpdate:
+      type: object
+      properties:
+        name: { type: string }
+        species: { type: string }
+        age: { type: integer }
+        vaccinated: { type: boolean }
+        breed: { type: string }

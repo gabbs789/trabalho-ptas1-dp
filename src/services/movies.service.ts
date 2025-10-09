@@ -2,7 +2,7 @@ import { randomUUID } from 'crypto';
 import { Movie, MovieCreate, MovieUpdate } from '../models/movie';
 import { readJSON, writeJSON } from '../storage/jsonStorage';
 
-const FILENAME = 'movies.json';
+const FILENAME = 'pets.json';
 
 async function load(): Promise<Movie[]> {
   return readJSON<Movie[]>(FILENAME, []);

@@ -15,7 +15,7 @@ export async function getById(req: Request, res: Response, next: NextFunction) {
   try {
     const id = req.params.id;
     const item = await MoviesService.getById(id);
-    if (!item) return res.status(404).json({ error: 'Movie not found' });
+    if (!item) return res.status(404).json({ error: 'Pet not found' });
     res.json(item);
   } catch (err) {
     next(err);
@@ -37,7 +37,7 @@ export async function update(req: Request, res: Response, next: NextFunction) {
     const id = req.params.id;
     const parsed = movieUpdateSchema.parse(req.body);
     const updated = await MoviesService.update(id, parsed);
-    if (!updated) return res.status(404).json({ error: 'Movie not found' });
+    if (!updated) return res.status(404).json({ error: 'Pet not found' });
     res.json(updated);
   } catch (err) {
     next(err);
@@ -48,7 +48,7 @@ export async function remove(req: Request, res: Response, next: NextFunction) {
   try {
     const id = req.params.id;
     const ok = await MoviesService.remove(id);
-    if (!ok) return res.status(404).json({ error: 'Movie not found' });
+    if (!ok) return res.status(404).json({ error: 'Pet not found' });
     res.status(204).send();
   } catch (err) {
     next(err);

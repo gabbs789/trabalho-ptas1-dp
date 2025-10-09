@@ -1,9 +1,10 @@
 export type Movie = {
   id: string;
-  title: string;
-  year: number;
-  genre: string;
-  rating?: number; // 0-10
+  name: string;
+  species: string;
+  age: number;
+  vaccinated?: boolean;
+  breed?: string;
 };
 
 export type MovieCreate = Omit<Movie, 'id'>;
