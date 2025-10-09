@@ -1,0 +1,119 @@
+openapi: 3.0.3
+info:
+  title: API Catálogo de Filmes
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+paths:
+  /health:
+    get:
+      summary: Health check
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+  /api/movies:
+    get:
+      summary: Lista filmes
+      responses:
+        '200':
+          description: Lista de filmes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Movie'
+    post:
+      summary: Cria um filme
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MovieCreate'
+      responses:
+        '201':
+          description: Criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+  /api/movies/{id}:
+    get:
+      summary: Busca filme por id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+        '404':
+          description: Não encontrado
+    put:
+      summary: Atualiza filme
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MovieUpdate'
+      responses:
+        '200':
+          description: Atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+        '404':
+          description: Não encontrado
+    delete:
+      summary: Remove filme
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '204':
+          description: Removido
+        '404':
+          description: Não encontrado
+components:
+  schemas:
+    Movie:
+      type: object
+      properties:
+        id: { type: string }
+        title: { type: string }
+        year: { type: integer }
+        genre: { type: string }
+        rating: { type: number, nullable: true }
+    MovieCreate:
+      type: object
+      required: [title, year, genre]
+      properties:
+        title: { type: string }
+        year: { type: integer }
+        genre: { type: string }
+        rating: { type: number, nullable: true }
+    MovieUpdate:
+      allOf:
+        - $ref: '#/components/schemas/MovieCreate'
