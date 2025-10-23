@@ -22,7 +22,7 @@ test('health check', async () => {
 });
 
 test('CRUD pets', async () => {
-  // Create
+  
   const createRes = await request(app)
     .post('/api/pets')
     .send({ name: 'Luna', species: 'Dog', age: 2, vaccinated: true, breed: 'Mixed' });
@@ -30,18 +30,18 @@ test('CRUD pets', async () => {
   const created = createRes.body;
   expect(created.id).toBeDefined();
 
-  // List
+  
   const listRes = await request(app).get('/api/pets');
   expect(listRes.status).toBe(200);
   expect(Array.isArray(listRes.body)).toBe(true);
   expect(listRes.body.length).toBe(1);
 
-  // Get by id
+  
   const getRes = await request(app).get(`/api/pets/${created.id}`);
   expect(getRes.status).toBe(200);
   expect(getRes.body.name).toBe('Luna');
 
-  // Update
+ 
   const updateRes = await request(app)
     .put(`/api/pets/${created.id}`)
     .send({ age: 3, vaccinated: false });
@@ -49,7 +49,7 @@ test('CRUD pets', async () => {
   expect(updateRes.body.age).toBe(3);
   expect(updateRes.body.vaccinated).toBe(false);
 
-  // Delete
+  
   const delRes = await request(app).delete(`/api/pets/${created.id}`);
   expect(delRes.status).toBe(204);
 

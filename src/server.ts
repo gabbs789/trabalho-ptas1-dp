@@ -12,14 +12,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Health check
+
 app.get('/health', (_req: Request, res: Response) => {
   res.json({ status: 'ok' });
 });
 
 app.use('/api', router);
 
-// Swagger docs
+
 try {
   const swaggerDocument = YAML.load('openapi.yaml');
   app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -27,7 +27,7 @@ try {
   console.warn('Swagger not loaded:', e);
 }
 
-// Global error handler
+
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   console.error(err);
   const status = err.status || 500;

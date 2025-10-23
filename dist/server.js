@@ -13,12 +13,12 @@ dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
-// Health check
+
 app.get('/health', (_req, res) => {
     res.json({ status: 'ok' });
 });
 app.use('/api', routes_1.router);
-// Swagger docs
+
 try {
     const swaggerDocument = yamljs_1.default.load('openapi.yaml');
     app.use('/docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swaggerDocument));
@@ -26,7 +26,7 @@ try {
 catch (e) {
     console.warn('Swagger not loaded:', e);
 }
-// Global error handler
+
 app.use((err, _req, res, _next) => {
     console.error(err);
     const status = err.status || 500;

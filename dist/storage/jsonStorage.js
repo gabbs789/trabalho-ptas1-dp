@@ -14,7 +14,7 @@ async function ensureDataDir() {
         await fs_1.promises.mkdir(dataDir, { recursive: true });
     }
     catch {
-        // ignore
+        
     }
 }
 async function readJSON(filename, defaultValue) {

@@ -7,7 +7,7 @@ export async function ensureDataDir() {
   try {
     await fs.mkdir(dataDir, { recursive: true });
   } catch {
-    // ignore
+    
   }
 }
 
