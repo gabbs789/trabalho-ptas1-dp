@@ -1,50 +1,41 @@
-import { randomUUID } from 'crypto';
-import { Pet, PetCreate, PetUpdate } from '../models/pet';
-import { readJSON, writeJSON } from '../storage/jsonStorage';
+import { db } from '../datdabase.service';
 
-const FILENAME = 'pets.json';
+export type PetCreate = {
+  name: string;
+  species: string;
+  age: number;
+  vaccinated?: boolean;
+  breed?: string;
+};
 
-async function load(): Promise<Pet[]> {
-  return readJSON<Pet[]>(FILENAME, []);
+export type PetUpdate = Partial<PetCreate>;
+
+export async function list() {
+  return db.pet.findMany();
 }
 
-async function save(items: Pet[]): Promise<void> {
-  await writeJSON(FILENAME, items);
+export async function getById(id: string) {
+  return db.pet.findUnique({
+    where: { id },
+  });
 }
 
-export async function list(): Promise<Pet[]> {
-  const items = await load();
-  return items;
+export async function create(input: PetCreate) {
+  return db.pet.create({
+    data: input,
+  });
 }
 
-export async function getById(id: string): Promise<Pet | undefined> {
-  const items = await load();
-  return items.find((m) => m.id === id);
+export async function update(id: string, input: PetUpdate) {
+  return db.pet.update({
+    where: { id },
+    data: input,
+  });
 }
 
-export async function create(input: PetCreate): Promise<Pet> {
-  const items = await load();
-  const item: Pet = { id: randomUUID(), ...input };
-  items.push(item);
-  await save(items);
-  return item;
-}
-
-export async function update(id: string, input: PetUpdate): Promise<Pet | undefined> {
-  const items = await load();
-  const idx = items.findIndex((m) => m.id === id);
-  if (idx === -1) return undefined;
-  const updated: Pet = { ...items[idx], ...input };
-  items[idx] = updated;
-  await save(items);
-  return updated;
-}
-
-export async function remove(id: string): Promise<boolean> {
-  const items = await load();
-  const before = items.length;
-  const filtered = items.filter((m) => m.id !== id);
-  if (filtered.length === before) return false;
-  await save(filtered);
+export async function remove(id: string) {
+  await db.pet.delete({
+    where: { id },
+  });
   return true;
 }

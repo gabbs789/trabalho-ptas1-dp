@@ -56,11 +56,10 @@ export type BaseEntity = {
   createdAt: Date
   updatedAt: Date
 }
+
 export async function findAll<T>(model: any, orderBy: string = 'name'): Promise<T[]> {
   const records = await model.findMany({
     orderBy: { [orderBy]: 'asc' },
   })
   return records
 }
-// Em student.service.ts
-const students = await persistence.findAll<Student>(db.student, 'name')

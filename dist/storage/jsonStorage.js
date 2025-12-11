@@ -14,7 +14,6 @@ async function ensureDataDir() {
         await fs_1.promises.mkdir(dataDir, { recursive: true });
     }
     catch {
-        
     }
 }
 async function readJSON(filename, defaultValue) {
@@ -37,3 +36,4 @@ async function writeJSON(filename, data) {
     const file = path_1.default.join(dataDir, filename);
     await fs_1.promises.writeFile(file, JSON.stringify(data, null, 2), 'utf-8');
 }
+//# sourceMappingURL=jsonStorage.js.map

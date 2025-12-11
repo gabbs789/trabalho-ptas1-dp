@@ -1,11 +1,8 @@
 import { z } from 'zod';
 
 export const userCreateSchema = z.object({
-  name: z.string().min(1),
-  species: z.string().min(1),
-  age: z.number().int().min(0),
-  vaccinated: z.boolean().optional(),
-  breed: z.string().min(1).optional(),
+  name: z.string().min(1, 'Name is required'),
+  email: z.string().email('Invalid email address'),
 });
 
 export const userUpdateSchema = userCreateSchema.partial();
