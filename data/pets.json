@@ -1,0 +1,10 @@
+[
+  {
+    "id": "09b4ce45-b838-47a0-98a4-5e2380382bb9",
+    "name": "Princesa",
+    "species": "Dog",
+    "age": 3,
+    "vaccinated": false,
+    "breed": "Pitbull"
+  }
+]
