@@ -1,34 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.list = list;
-exports.getById = getById;
-exports.create = create;
-exports.update = update;
-exports.remove = remove;
+exports.remove = exports.update = exports.create = exports.getById = exports.list = void 0;
 const datdabase_service_1 = require("../datdabase.service");
-async function list() {
-    return datdabase_service_1.db.pet.findMany();
-}
-async function getById(id) {
-    return datdabase_service_1.db.pet.findUnique({
-        where: { id },
-    });
-}
-async function create(input) {
-    return datdabase_service_1.db.pet.create({
-        data: input,
-    });
-}
-async function update(id, input) {
-    return datdabase_service_1.db.pet.update({
-        where: { id },
-        data: input,
-    });
-}
-async function remove(id) {
-    await datdabase_service_1.db.pet.delete({
-        where: { id },
-    });
-    return true;
-}
+const list = () => datdabase_service_1.db.pet.findMany();
+exports.list = list;
+const getById = (id) => datdabase_service_1.db.pet.findUnique({ where: { id } });
+exports.getById = getById;
+const create = (data) => datdabase_service_1.db.pet.create({ data });
+exports.create = create;
+const update = (id, data) => datdabase_service_1.db.pet.update({ where: { id }, data });
+exports.update = update;
+const remove = (id) => datdabase_service_1.db.pet.delete({ where: { id } });
+exports.remove = remove;
 //# sourceMappingURL=pets.service.js.map

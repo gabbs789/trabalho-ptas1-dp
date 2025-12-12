@@ -1,41 +1,8 @@
-import { db } from '../datdabase.service';
+import { db } from '../database.service';
+import { PetCreateInput } from '../validators/pet.schemas';
 
-export type PetCreate = {
-  name: string;
-  species: string;
-  age: number;
-  vaccinated?: boolean;
-  breed?: string;
-};
-
-export type PetUpdate = Partial<PetCreate>;
-
-export async function list() {
-  return db.pet.findMany();
-}
-
-export async function getById(id: string) {
-  return db.pet.findUnique({
-    where: { id },
-  });
-}
-
-export async function create(input: PetCreate) {
-  return db.pet.create({
-    data: input,
-  });
-}
-
-export async function update(id: string, input: PetUpdate) {
-  return db.pet.update({
-    where: { id },
-    data: input,
-  });
-}
-
-export async function remove(id: string) {
-  await db.pet.delete({
-    where: { id },
-  });
-  return true;
-}
+export const list = () => db.pet.findMany();
+export const getById = (id: string) => db.pet.findUnique({ where: { id } });
+export const create = (data: PetCreateInput) => db.pet.create({ data });
+export const update = (id: string, data: any) => db.pet.update({ where: { id }, data });
+export const remove = (id: string) => db.pet.delete({ where: { id } });
